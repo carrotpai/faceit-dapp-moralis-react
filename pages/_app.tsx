@@ -1,4 +1,5 @@
 import '../styles/globals.css'
+import '../styles/greetingPage.css'
 import type { AppProps } from 'next/app'
 import { MoralisProvider } from 'react-moralis'
 
