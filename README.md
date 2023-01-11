@@ -34,3 +34,12 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+страница ---
+никнейм --- ELO --- сколько заработал у нас
+
+кнопка connect wallet
+кнопка register account -> появиться кнопка "учавствовать" -> появиться кнопка claim (доступна раз в неделю)
+register отправляет данные игрока на блокчей для регистрации,
+учавтсвовать проводит транзакцию контракта participate с 0.00375 ether
+claim отправляет запрос balanceAccrual на контракт
