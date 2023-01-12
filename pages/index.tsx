@@ -11,6 +11,7 @@ import Header from '../components/header';
 import Description from '../components/description';
 import IntroImage from '../components/introimage';
 import Script from 'next/script';
+import ModalWindow from '../components/modalWindow';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -26,23 +27,16 @@ function isContractResponse(obj: unknown): obj is contractResponse {
 
 
 export default function Home() {
-
-  function callback(response: any){
-      if(response.isIdTokenValid === true){
-        return;
-      }
-      alert('The id token is not valid, something went wrong');
-    }
-
   return (
     <div>
-
       <Header />
       <div className="contentWrapper">
         <Description />
         <IntroImage />
       </div>
-      <Connect />
+      <div className="mainButtonWrapper">
+        <Connect />
+      </div>
     </div>
   )
 }

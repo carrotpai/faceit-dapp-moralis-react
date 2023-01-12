@@ -10,12 +10,12 @@ const login = () => {
         return (
             <div>
                 <p>Welcome, {JSON.stringify(session)}</p>
-                <button onClick={() => signOut()}>Sign Out</button>
+                <button className="customButton signOutButton" onClick={() => signOut()}>Sign Out</button>
             </div>
         )
     } else {
         return (
-            <button onClick={() => signIn()}>Sign in</button>
+            <button className="customButton signInButton" onClick={() => signIn()}>Sign in</button>
         )
     }
 }

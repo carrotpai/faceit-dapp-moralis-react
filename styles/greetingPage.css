@@ -47,7 +47,97 @@
     margin-top: 2vh;
 }
 
-.connect {
-    margin-left: 50%;
+.mainButtonWrapper {
+    display: flex;  
+    justify-content: center;
     margin-top: 15vh;
 }
+
+
+.modalWindow {
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    height: 40vh;
+    position: absolute;
+    padding: 2vh 0;
+    border-radius: 10%;
+    z-index: 1;
+    left: 35%;
+    top: 30%;
+    background-color: rgba(255, 247, 240, 0.514);
+    border: 2px solid gray;
+}
+
+.inputForm {
+    border: 0;
+    border-bottom: 2px rgb(187, 187, 187) solid;
+    background-color: transparent;
+    height: 4vh;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.inputForm:focus {
+    border: 0;
+    border-bottom: 2px gray solid;
+    outline: none;
+    transition: 0.2s;
+}
+
+.inputForm:hover {
+    font-weight: 600;
+}
+
+.modalWindowForm {
+    width:30%;
+    margin-left: 35%;  
+    margin-bottom: 6vh; 
+}
+
+.buttons {
+    display: flex;
+    width: 50%;
+    margin-left: 25%;
+    justify-content: space-between;
+    
+}
+
+.customButton {
+    border: 1px gray solid;
+    text-decoration: none;
+    padding: 10px 15px;
+    font-family: 'Montserrat', sans-serif;
+    border-radius: 5%;
+}
+
+.customButton:hover {
+    transition: 0.4s;
+    box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.171);
+}
+
+.acceptButton {
+    background-color: rgb(115, 199, 115);
+}
+
+.cancelButton {
+    background-color: rgb(150, 150, 150);
+}
+
+.closeButton {
+    align-self: flex-end;
+    height:auto;
+    width: auto;
+    border:0;
+    margin-right: 10%;
+    background-color: rgba(128, 128, 128, 0.521);
+    border: 1px solid rgba(0, 0, 0, 0.233);
+    padding: 5px 7px;
+    border-radius: 20%;
+}
+
+.closeButton:hover {
+    text-shadow: 0px 10px 10px black;
+    box-shadow: none;
+    font-weight: 600;
+}
+
