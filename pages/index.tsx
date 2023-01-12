@@ -26,8 +26,17 @@ function isContractResponse(obj: unknown): obj is contractResponse {
 
 
 export default function Home() {
+
+  function callback(response: any){
+      if(response.isIdTokenValid === true){
+        return;
+      }
+      alert('The id token is not valid, something went wrong');
+    }
+
   return (
     <div>
+
       <Header />
       <div className="contentWrapper">
         <Description />

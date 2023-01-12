@@ -9,7 +9,6 @@ import { BigNumber, ethers } from 'ethers';
 import { Button, Space } from 'antd';
 import Link from 'next/link';
 import Script from 'next/script';
-import FACEIT from "faceit";
 
 export default function Connect() {
     const [hasMetamask, setHasMetamask] = useState(false);
