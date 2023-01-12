@@ -7,7 +7,10 @@ export default NextAuth({
         FaceItProvider({
             clientId: process.env.FACEIT_CLIENT_ID,
             clientSecret: process.env.FACEIT_CLIENT_SECRET,
-            checks: "both",
+            authorization: {
+                url: "https://accounts.faceit.com/accounts?redirect_popup=true",
+                params: { scope: 'openid profile' }
+            },
             token: {
                 url: "https://api.faceit.com/auth/v1/oauth/token",
                 request: async params => {
@@ -30,33 +33,27 @@ export default NextAuth({
                     }
                 }
             },
-
+            userinfo: "https://api.faceit.com/auth/v1/resources/userinfo",
             profile(profile) {
                 return {
                     id: profile.guid,
                     name: profile.nickname,
                     email: profile.email,
-                    image: profile.picture,
+                    image: profile.picture
                 }
             }
         })
     ],
     callbacks: {
-        async signIn({ user, account, profile, email, credentials }) {
-            return true
-        },
-        async redirect({ url, baseUrl }) {
-            return baseUrl
-        },
         async session({ session, token, user }) {
-            const encodedToken = jwt.sign(token, process.env.JWT_SECRET, { algorithm: 'HS256' });
-            session.id = token.id;
-            session.token = encodedToken;
-            return Promise.resolve(session);
+            session.user.id = token.id;
+            session.accessToken = token.accessToken;
+            return session;
         },
         async jwt({ token, user, account, profile, isNewUser }) {
             if (user) {
                 token.id = user.id;
+                token.user = user;
             }
             if (account) {
                 token.accessToken = account.access_token;
@@ -64,7 +61,7 @@ export default NextAuth({
             return token;
         },
     },
-    jwt: {
+    /* jwt: {
         encode: async ({ secret, token, maxAge }) => {
             console.log("in encoding");
             const jwtClaims = {
@@ -81,6 +78,6 @@ export default NextAuth({
             const decodedToken = jwt.verify(token, secret, { algorithms: ['HS256'] });
             return decodedToken;
         }
-    },
+    }, */
     secret: process.env.JWT_SECRET,
 })
