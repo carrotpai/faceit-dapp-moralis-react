@@ -1,12 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSession, signIn, signOut } from "next-auth/react";
 const secret = process.env.NEXTAUTH_SECRET
 import jwt from "jsonwebtoken"
 
-const login = () => {
+const login = ({setIsAuthorised, ...rest}) => {
     const { data: session } = useSession();
-
-
 
     if (session) {
         return (
@@ -17,7 +15,8 @@ const login = () => {
         )
     } else {
         return (
-            <button className="customButton signInButton" onClick={() => signIn()}>Sign in</button>
+            <button className="customButton signInButton" onClick={() => {signIn()
+                 setIsAuthorised(true)}}>Sign in with faceit</button>
         )
     }
 }

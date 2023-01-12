@@ -141,3 +141,10 @@
     font-weight: 600;
 }
 
+.claimDisabledButton {
+    color: red;
+}
+
+.claimDisabledButton:hover {
+    box-shadow: none;
+}

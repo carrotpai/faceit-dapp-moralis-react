@@ -21,6 +21,7 @@
     "eslint-config-next": "^0.2.4",
     "ethers": "^5.7.2",
     "faceit": "^0.0.2",
+    "faceit-js": "^0.0.3",
     "jsonwebtoken": "^9.0.0",
     "magic-sdk": "^6.0.2",
     "moralis": "^2.11.0",
