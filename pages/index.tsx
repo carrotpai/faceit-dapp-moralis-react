@@ -27,15 +27,29 @@ function isContractResponse(obj: unknown): obj is contractResponse {
 
 
 export default function Home() {
+  const [isConnected, setIsConnected] = useState(false);
   return (
     <div>
-      <Header />
-      <div className="contentWrapper">
-        <Description />
-        <IntroImage />
-      </div>
-      <div className="mainButtonWrapper">
-        <Connect />
+      {isConnected ? (
+        <>
+          <div className='overflowBlock'>
+            <div className='bgImage'>
+            </div>
+          </div>
+          <Header />
+        </>
+      ) : (
+        <>
+          <div className='bgImageIntro'></div>
+          <Header />
+          <div className="contentWrapper">
+            <Description />
+            <IntroImage />
+          </div>
+        </>
+      )}
+      <div className="mainConnectWrapper">
+        <Connect onConnectClick={() => { setIsConnected(true) }} />
       </div>
     </div>
   )

@@ -16,8 +16,9 @@ import { useSession } from 'next-auth/react';
 import getElo from '../pages/api/getElo';
 import { GetStaticProps } from 'next';
 import { create } from 'domain';
+import PlayerInfo from './playerInfo';
 
-export default function Connect() {
+const Connect = ({ onConnectClick }) => {
     const [hasMetamask, setHasMetamask] = useState(false);
     const { enableWeb3, isWeb3Enabled, account } = useMoralis();
     const [showModal, setShowModal] = useState(false);
@@ -25,6 +26,7 @@ export default function Connect() {
     const [isAccountCreated, setIsAccountCreated] = useState(false);
     const [isParticipating, setIsParticipating] = useState(false);
     const [isClaimAvailable, setIsClaimAvailable] = useState(false);
+    const [showBlock, setShowBlock] = useState(true);
     const { data: session } = useSession();
 
     useEffect(() => {
@@ -36,20 +38,41 @@ export default function Connect() {
             const playerAccountCreatedEvents = (await contract.queryFilter(playerAccountCreatedFilter));
             const playerHadParticipateFilter = contract.filters.playerHadParticipate(signer._address);
             const playerHadParticipateEvents = (await contract.queryFilter(playerHadParticipateFilter));
-            if(playerAccountCreatedEvents[0] != undefined){
+            if (playerAccountCreatedEvents[0] != undefined) {
+                console.log(playerAccountCreatedEvents[0])
                 setIsAccountCreated((await playerAccountCreatedEvents[0].decode(playerAccountCreatedEvents[0].data, playerAccountCreatedEvents[0].topics)[3]));
             }
-            if(playerHadParticipateEvents[0] != undefined){
+            if (playerHadParticipateEvents[0] != undefined) {
+                console.log(playerHadParticipateEvents[0].decode(playerHadParticipateEvents[0].data, playerHadParticipateEvents[0].topics))
                 setIsParticipating((await playerHadParticipateEvents[0].decode(playerHadParticipateEvents[0].data, playerHadParticipateEvents[0].topics)[1]));
+            }
+            const balance = contract.filters.balanceChanged(signer._address);
+            const balanceEvent = (await contract.queryFilter(balance));
+            if (balanceEvent.length > 0){
+                wallet = (await balanceEvent[0].decode(balanceEvent[0].data, balanceEvent[0].topics)[1]);
+            } else {
+                wallet = 0;
+            }
+            if (isAccountCreated && isParticipating) {
+                if ((await contract.getTimeForNextClaim())) {
+                    setIsClaimAvailable(true);
+                }
+            }
+            if (session){
+                elo = (await getElo());
+                console.log(elo);
             }
         })()
     }, [])
 
-    async function sendInfo(name: string) {
+    var wallet = 0;
+    var elo = 0;
+
+    async function sendInfo(name: string, rating: number) {
         const provider = new ethers.providers.Web3Provider(window.ethereum);
         const signer = provider.getSigner();
         const contract = new ethers.Contract("0x5FbDB2315678afecb367f032d93F642f64180aa3", abi, signer);
-        const tx = await contract.createPlayerAccount(name, 20);
+        const tx = await contract.createPlayerAccount(name, rating);
         await tx.wait();
         console.log(tx);
         setIsAccountCreated(true);
@@ -85,36 +108,62 @@ export default function Connect() {
         }
     }, [])
 
+    function handleConnectClick() {
+        onConnectClick();
+    }
+
+    async function getElo(){
+        const elo = await fetch(`http://localhost:3001/getElo/${session?.user?.name}`);
+        const res = await elo.json();
+        return res;
+    }
+
     return (
-        <div>
+        <div className='connectMain'>
             <ModalWindow onClose={() => setShowModal(false)}
                 onSubmit={() => { setIsAuthorised(true); setShowModal(false) }}
                 show={showModal}
             />
+            {showBlock && isAuthorised ? (
+                <PlayerInfo name={session?.user?.name}
+                wallet={wallet}
+                rating={elo}/>
+            ) : (
+                ""
+            )
+            }
             {hasMetamask ? (
                 session ? (
                     isWeb3Enabled ? (
                         isAccountCreated ? (
                             isParticipating ? (
                                 isClaimAvailable ? (
-                                    <button className='customButton claimButton' onClick={() => giveMoney(100)}>Claim</button>
+                                    <div className='buttonWrapper'>
+                                        <button className='customButton claimButton' onClick={() => giveMoney(100)}>Claim</button>
+                                    </div>
                                 ) : (
-                                    <button className='customButton claimDisabledButton' disabled>Already claimed this week</button>
+                                    <div className='buttonWrapper'>
+                                        <button className='customButton claimDisabledButton' disabled>Already claimed this week</button>
+                                    </div>
                                 )
                             ) : (
-                                <button className='customButton participateButton' onClick={() => participate()}>Participate</button>
+                                <div className='buttonWrapper'>
+                                    <button className='customButton participateButton' onClick={() => participate()}>Participate</button>
+                                </div>
                             )
                         ) : (
-                            <button className="registerAccount customButton" onClick={() => sendInfo(session.user?.name)}>Create webwallet</button>
+                            <div className='buttonWrapper'>
+                                <button className="registerAccount customButton" onClick={() => sendInfo(session.user?.name, elo)}>Create webwallet</button>
+                            </div>
                         )
                     ) : (
-                        <div>
-                            <button className="connect customButton" onClick={() => enableWeb3()}>Connect</button>
+                        <div className='buttonWrapper'>
+                            <button className="connect customButton" onClick={() => enableWeb3()}>CONNECT</button>
                         </div>
                     )
                 ) : (
                     <div>
-                        <Login setIsAuthorised={setIsAuthorised} />
+                        <Login setIsAuthorised={setIsAuthorised} setShowBlock={setShowBlock}/>
                     </div>
                 )
             ) : (
@@ -124,3 +173,5 @@ export default function Connect() {
         </div >
     )
 }
+
+export default Connect;

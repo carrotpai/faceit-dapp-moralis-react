@@ -6,10 +6,43 @@
     box-sizing: border-box;
 }
 
+.bgImageIntro {
+    background-image: url("../public/csgo_4-wallpaper-2560x1440.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: absolute;
+    z-index: -100;
+    filter: blur(0px);
+    height: 100%;
+    width: 100%;
+}
+
+.overflowBlock {
+    overflow: hidden;
+}
+
+.bgImage {
+    background-image: url("../public/csgo_4-wallpaper-2560x1440.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: fixed;
+    scale: 1.1;
+    filter: brightness(0.5) blur(5px);
+    z-index: -100;
+    height: 100%;
+    width: 100%;
+}
+
+.homeWrapper {
+    overflow: hidden;
+}
+
 .header {
     display: flex;
     align-items: center;
-    background-color: rgba(230, 110, 12, 0.349);
+    background-color: rgba(0, 0, 0, 0.801);
     width: 100%;
     height: 5vh;
 }
@@ -23,34 +56,38 @@
 }
 
 .contentWrapper {
-    width: 70%;
+    width: 80%;
     height:auto;
-    margin-left:15%;
+    margin-left:10%;
     display:flex;
     justify-content: space-between;
+    align-self: center;
+    margin-top: 10vh;
+    padding: 5%;
+    background-color: rgba(0, 0, 0, 0.705);
 }
 
 .descWrapper{
     width: 40%;
     height: auto;
-    margin-top: 2vh;
+    align-self: center;
 }
 
 .description {
-    font-size: 18px;
+    font-size: 20px;
+    color: white;
     font-family: 'Montserrat', sans-serif;
-    font-size: 400;
+    font-size: 600;
 }
 
 .introimage {
     width: 50%;
-    margin-top: 2vh;
 }
 
-.mainButtonWrapper {
+.mainConnectWrapper {
     display: flex;  
-    justify-content: center;
-    margin-top: 15vh;
+    justify-content: center;    
+    flex-direction: column;
 }
 
 
@@ -103,16 +140,18 @@
 }
 
 .customButton {
-    border: 1px gray solid;
+    border: 1px rgba(128, 128, 128, 0.301) solid;
+    background-color: rgb(255, 174, 0);
     text-decoration: none;
     padding: 10px 15px;
     font-family: 'Montserrat', sans-serif;
-    border-radius: 5%;
+    border-radius: 10%;
+    transition: 0.4s;
 }
 
 .customButton:hover {
-    transition: 0.4s;
-    box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.171);
+    scale: 0.95;
+    mix-blend-mode: hard-light;
 }
 
 .acceptButton {
@@ -146,5 +185,71 @@
 }
 
 .claimDisabledButton:hover {
-    box-shadow: none;
+    scale: 1;
+    mix-blend-mode: normal;
+}
+
+.connect {
+    font-size: 25px;
+    font-weight: 500;
+}
+
+.buttonWrapper {
+    padding: 20px;
+    align-self: center;
+    display: flex;
+    justify-content: center;
+    margin-top: 10vh;
+}
+
+.connectMain {
+    display: flex;
+    width:100%;
+    flex-direction: column;
+}
+
+.playerInfo {
+    display: flex;
+    justify-content: space-between;
+    background-color: rgba(0, 0, 0, 0.705);
+    width: 30%;
+    height: 40vh;
+    margin-left: 10%;
+    margin-top: 5vh;
+}
+
+.playerIcon {
+    width: 30%;
+    height: 30%;
+    margin-top: 10%;
+    margin-left: 10%;
+}
+
+.playerDataBlock {
+    background-color: gray;
+    margin-top: 10%;
+    margin-right: 5%;
+    width: 50%;
+    height: 40%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 7%;
+}
+
+.playerData {
+    font-family: 'Montserrat', sans-serif;
+    text-align: center;
+    color: white;
+    margin-bottom: 5%;
+}
+
+.signInButton {
+    font-size: 25px;
+    font-weight: 500;
+}
+
+.signOutButton {
+    font-size: 25px;
+    font-weight: 500;
 }
